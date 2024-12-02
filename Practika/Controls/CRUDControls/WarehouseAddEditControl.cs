@@ -89,6 +89,7 @@ namespace Practika.Controls.CRUDControls
                     return;
                 }
 
+                
                 if (warehouseId.HasValue) // Обновление
                 {
                     string query = @"

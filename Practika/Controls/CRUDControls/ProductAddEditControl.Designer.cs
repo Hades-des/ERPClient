@@ -80,9 +80,19 @@
             0,
             0,
             0});
+            this.numericUpDownPrice.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             this.numericUpDownPrice.Name = "numericUpDownPrice";
             this.numericUpDownPrice.Size = new System.Drawing.Size(200, 20);
             this.numericUpDownPrice.TabIndex = 3;
+            this.numericUpDownPrice.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             // 
             // labelProductName
             // 

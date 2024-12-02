@@ -1,4 +1,5 @@
 ﻿using Practika.Controls;
+using Practika.Controls.DocumentsCRUD;
 using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
@@ -91,7 +92,7 @@ namespace Practika
             labelCategory.Text = "В разработке...";
             textBoxSearch.Visible = false;
             panelOwn.Controls.Clear();
-            MovePanelToButton(button4);
+            MovePanelToButton(buttonDocs);
             // Добавить функционал для другой сущности
         }
 
@@ -118,7 +119,7 @@ namespace Practika
         private void button4_Leave(object sender, EventArgs e)
         {
             textBoxSearch.Visible = true;
-            button4.BackColor = Color.FromArgb(33, 33, 33);
+            buttonDocs.BackColor = Color.FromArgb(33, 33, 33);
         }
 
         private void buttonExit_Leave(object sender, EventArgs e)
@@ -141,6 +142,21 @@ namespace Practika
         private void MainForm_Load(object sender, EventArgs e)
         {
             buttonProducts.PerformClick();
+        }
+
+        private void buttonDocs_Click(object sender, EventArgs e)
+        {
+            MovePanelToButton(buttonDocs);
+
+            var documentsControl = new DocumentsControl(dbHelper);
+            SwitchToControl(documentsControl);
+
+            labelCategory.Text = "Документы";
+        }
+
+        private void buttonDocs_Leave(object sender, EventArgs e)
+        {
+            buttonExit.BackColor = Color.FromArgb(33, 33, 33);
         }
     }
 }

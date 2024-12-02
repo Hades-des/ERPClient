@@ -21,7 +21,7 @@ namespace Practika.Controls.ProductsCRUD
             InitializeComponent();
             dbHelper = helper;
             this.productId = productId;
-
+            textBoxProductName.KeyPress += textBoxProductName_KeyPress;
             LoadCategories();
 
             if (productId.HasValue)
@@ -79,10 +79,23 @@ namespace Practika.Controls.ProductsCRUD
                 string unit = textBoxUnit.Text.Trim();
                 decimal price = numericUpDownPrice.Value;
 
+                // Проверка на длину имени продукта
+                if (name.Length >= 50)
+                {
+                    MessageBox.Show("Название продукта не должно превышать 50 символов.",
+                                    "Ошибка",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+                    return;
+                }
+
                 // Проверка, выбрана ли категория
                 if (comboBoxCategory.SelectedValue == null)
                 {
-                    MessageBox.Show("Пожалуйста, выберите категорию.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Пожалуйста, выберите категорию.",
+                                    "Ошибка",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -90,7 +103,10 @@ namespace Practika.Controls.ProductsCRUD
 
                 if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(unit))
                 {
-                    MessageBox.Show("Заполните все обязательные поля.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Заполните все обязательные поля.",
+                                    "Ошибка",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -129,7 +145,10 @@ namespace Practika.Controls.ProductsCRUD
                     dbHelper.ExecuteNonQuery(query, parameters);
                 }
 
-                MessageBox.Show("Продукт успешно сохранен.", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Продукт успешно сохранен.",
+                                "Успех",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
 
                 // Возвращаемся к ProductsControl
                 var parentForm = (MainForm)this.ParentForm;
@@ -137,9 +156,14 @@ namespace Practika.Controls.ProductsCRUD
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при сохранении: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Ошибка при сохранении: {ex.Message}",
+                                "Ошибка",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
             }
         }
+
+
 
         private void buttonCancel_Click(object sender, EventArgs e)
         {
@@ -147,5 +171,20 @@ namespace Practika.Controls.ProductsCRUD
             var productsControl = new ProductsControl(dbHelper);
             parentForm.SwitchToControl(productsControl);
         }
+
+        private void textBoxProductName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Разрешаем только кириллицу, пробелы и управляющие символы (например, Backspace)
+            if (!(char.IsControl(e.KeyChar) || char.IsWhiteSpace(e.KeyChar) ||
+                  (e.KeyChar >= 'А' && e.KeyChar <= 'я') || e.KeyChar == 'ё' || e.KeyChar == 'Ё'))
+            {
+                e.Handled = true; // Запрещаем ввод
+                MessageBox.Show("Ввод на английском языке запрещен. Используйте только кириллицу.",
+                                "Предупреждение",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+            }
+        }
+
     }
 }

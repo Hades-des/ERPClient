@@ -82,7 +82,7 @@
             this.numericUpDownCapacity.ForeColor = System.Drawing.SystemColors.Control;
             this.numericUpDownCapacity.Location = new System.Drawing.Point(148, 82);
             this.numericUpDownCapacity.Maximum = new decimal(new int[] {
-            1000000,
+            10000,
             0,
             0,
             0});
